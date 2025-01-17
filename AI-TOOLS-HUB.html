@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI TOOLS HUB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #2c3e50, #3498db); /* Background Gradient */
+            color: white;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent Black */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        .login-container, .tools-container, .welcome-container {
+            display: none; /* Hide everything by default */
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .login-container input {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-container button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-container button:hover {
+            background-color: #2980b9;
+        }
+
+        .tools-container {
+            padding: 20px;
+        }
+
+        .category {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .category-box {
+            background-color: #1e2a47;
+            padding: 20px;
+            width: 250px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .category-box:hover {
+            transform: scale(1.05);
+            background-color: #2980b9;
+        }
+
+        .category-box h2 {
+            font-size: 24px;
+            color: #3498db;
+        }
+
+        .category-box p {
+            font-size: 14px;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Popup Styles */
+        .popup {
+            background-color: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            width: 60%;
+            max-height: 80%;
+            overflow-y: auto;
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .popup h2 {
+            font-size: 24px;
+            color: #3498db;
+        }
+
+        .popup p {
+            font-size: 16px;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Close Button Style */
+        .close-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .close-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Popup 1 Style */
+        .popup-1 {
+            background-color: #f9e79f; /* Yellowish for popup 1 */
+        }
+
+        /* Popup 2 Style */
+        .popup-2 {
+            background-color: #d5dbdb; /* Light Gray for popup 2 */
+        }
+
+        /* Popup 3 Style */
+        .popup-3 {
+            background-color: #fadbd8; /* Light Pink for popup 3 */
+        }
+
+        /* Style for each tool box inside the popup */
+        .tool-box {
+            background-color: #1e2a47;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .tool-box:hover {
+            transform: scale(1.05);
+            background-color: #2980b9;
+        }
+
+        .tool-box a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            font-size: 16px;
+        }
+
+        .tool-box a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AI TOOLS HUB</h1>
+    </header>
+
+    <!-- Login/Register Page -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter your name" required />
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Welcome Page -->
+    <div class="welcome-container">
+        <h2>Welcome, <span id="user-name"></span>!</h2>
+        <button class="btn" onclick="showTools()">Go to Tools</button>
+    </div>
+
+    <!-- Tools Page -->
+    <div class="tools-container">
+        <h2>Welcome, <span id="user-name-tools"></span></h2>
+        <div class="category">
+            <!-- Content Creation Tools -->
+            <div class="category-box" onclick="showPopup('content-creation')">
+                <h2>Content Creation Tools</h2>
+                <p>Explore the latest tools for writing, design, and media creation to enhance your content.</p>
+            </div>
+
+            <!-- Writing Tools -->
+            <div class="category-box" onclick="showPopup('writing-tools')">
+                <h2>Writing Tools</h2>
+                <p>Find writing tools, grammar checkers, and style enhancers to improve your writing process.</p>
+            </div>
+
+            <!-- Editing Tools -->
+            <div class="category-box" onclick="showPopup('editing-tools')">
+                <h2>Editing Tools</h2>
+                <p>Discover editing tools for text formatting, content trimming, and proofreading.</p>
+            </div>
+
+            <!-- Collaboration Tools -->
+            <div class="category-box" onclick="showPopup('collaboration-tools')">
+                <h2>Collaboration Tools</h2>
+                <p>Work with others using collaboration platforms for seamless project management.</p>
+            </div>
+        </div>
+    </div>
+
+   <!-- Popup for Content Creation Tools -->
+   <div class="popup" id="content-creation">
+    <h2>Content Creation Tools</h2>
+    <p>Here are some content creation tools that can help with writing, designing, and managing media content:</p>
+    <div class="tool-box">
+        <a href="https://www.canva.com" target="_blank">Canva</a>
+        <p class="tool-box-description">A user-friendly tool for designing graphics, presentations, and more.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.adobe.com/products/photoshop.html" target="_blank">Adobe Photoshop</a>
+        <p class="tool-box-description">Professional image editing software used for creating and manipulating photos.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.apple.com/final-cut-pro/" target="_blank">Final Cut Pro</a>
+        <p class="tool-box-description">Apple's professional video editing software for film and media creators.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.blender.org" target="_blank">Blender</a>
+        <p class="tool-box-description">A powerful 3D creation suite, for modeling, rendering, animation, and more.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.procreate.art" target="_blank">Procreate</a>
+        <p class="tool-box-description">A popular drawing app for digital artists, with advanced features.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.sketch.com" target="_blank">Sketch</a>
+        <p class="tool-box-description">Design software primarily for web and app design.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.figma.com" target="_blank">Figma</a>
+        <p class="tool-box-description">A collaborative interface design tool, useful for teams and individuals.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.inkling.com" target="_blank">Inkling</a>
+        <p class="tool-box-description">Interactive and intuitive content creation tool for modern digital media.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.adobe.com/products/illustrator.html" target="_blank">Adobe Illustrator</a>
+        <p class="tool-box-description">A vector graphics editor for creating logos, illustrations, and designs.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.pinterest.com" target="_blank">Pinterest</a>
+        <p class="tool-box-description">A visual discovery engine for finding and saving creative ideas.</p>
+    </div>
+    <button class="btn close-btn" onclick="closePopup('content-creation')">Close</button>
+</div>
+
+<!-- Popup for Writing Tools -->
+<div class="popup" id="writing-tools">
+    <h2>Writing Tools</h2>
+    <p>Writing tools to assist with grammar checking, stylistic improvements, and other writing enhancements:</p>
+    <div class="tool-box">
+        <a href="https://www.grammarly.com" target="_blank">Grammarly</a>
+        <p class="tool-box-description">Real-time grammar and spelling check for clear and mistake-free writing.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.reedsy.com" target="_blank">Reedsy</a>
+        <p class="tool-box-description">Writing and editing platform for authors, with tools for book formatting and publishing.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.scribens.com" target="_blank">Scribens</a>
+        <p class="tool-box-description">A free grammar checker tool for improving writing quality and clarity.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.hemingwayapp.com" target="_blank">Hemingway Editor</a>
+        <p class="tool-box-description">A writing tool for improving readability and style by simplifying complex sentences.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.prowritingaid.com" target="_blank">ProWritingAid</a>
+        <p class="tool-box-description">A grammar checker and style editor that helps improve writing style.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.zoho.com/writer" target="_blank">Zoho Writer</a>
+        <p class="tool-box-description">An online word processor for collaborative writing and document management.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.citelighter.com" target="_blank">Citelighter</a>
+        <p class="tool-box-description">A tool for organizing and citing information for academic writing.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.essaypro.com" target="_blank">EssayPro</a>
+        <p class="tool-box-description">An essay writing service with tools for custom essays, editing, and rewriting.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.writemonkey.com" target="_blank">WriteMonkey</a>
+        <p class="tool-box-description">A distraction-free writing app designed for focused writers.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.nitrotype.com" target="_blank">NitroType</a>
+        <p class="tool-box-description">A typing game to improve typing speed and accuracy.</p>
+    </div>
+    <button class="btn close-btn" onclick="closePopup('writing-tools')">Close</button>
+</div>
+
+<!-- Popup for Editing Tools -->
+<div class="popup" id="editing-tools">
+    <div class="tool-box">
+        <a href="https://www.grammarly.com" target="_blank">Grammarly</a>
+        <p class="tool-box-description">An AI tool that helps with grammar, spelling, punctuation, style, and tone, providing clarity and readability suggestions.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://prowritingaid.com" target="_blank">ProWritingAid</a>
+        <p class="tool-box-description">A writing assistant that improves writing style, grammar, readability, and structure with detailed content analysis reports.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="http://www.hemingwayapp.com" target="_blank">Hemingway Editor</a>
+        <p class="tool-box-description">An AI-powered tool that highlights hard-to-read sentences and suggests improvements for concise and clear writing.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.gingersoftware.com" target="_blank">Ginger Software</a>
+        <p class="tool-box-description">Offers grammar and spell check, advanced sentence rephrasing, translation, and a personal dictionary.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.quillbot.com" target="_blank">QuillBot</a>
+        <p class="tool-box-description">An AI-based tool for paraphrasing, summarizing, and rewording sentences while improving clarity and meaning.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.slickwrite.com" target="_blank">Slick Write</a>
+        <p class="tool-box-description">AI-driven writing tool that analyzes grammar, punctuation, style, and readability, providing suggestions for improvement.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.writer.com" target="_blank">Writer.com</a>
+        <p class="tool-box-description">A content writing and editing tool that uses AI to ensure writing is clear, concise, and free of errors while optimizing for specific audiences.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.wordtune.com" target="_blank">Wordtune</a>
+        <p class="tool-box-description">An AI-powered rewriting tool that helps rewrite sentences for better clarity and flow while maintaining meaning.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.ai-writer.com" target="_blank">AI Writer</a>
+        <p class="tool-box-description">An AI-powered writing assistant for generating, editing, and improving content with suggestions and auto-completion.</p>
+    </div>
+    
+    <div class="tool-box">
+        <a href="https://www.sapling.ai" target="_blank">Sapling AI</a>
+        <p class="tool-box-description">A writing assistant using AI to improve text clarity, grammar, and tone, especially for professional communication and business writing.</p>
+    </div>
+    <button class="btn close-btn" onclick="closePopup('editing-tools')">Close</button>
+</div>
+
+
+
+<!-- Popup for Collaboration Tools -->
+<div class="popup" id="collaboration-tools">
+    <h2>Collaboration Tools</h2>
+    <p>Work effectively with others through these collaboration platforms:</p>
+    <div class="tool-box">
+        <a href="https://www.slack.com" target="_blank">Slack</a>
+        <p class="tool-box-description">A messaging platform designed for team communication and collaboration.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.trello.com" target="_blank">Trello</a>
+        <p class="tool-box-description">A visual tool for organizing tasks and managing projects.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.microsoft.com/en-us/microsoft-teams/group-chat-software" target="_blank">Microsoft Teams</a>
+        <p class="tool-box-description">A communication platform for team collaboration and video conferencing.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.zoom.us" target="_blank">Zoom</a>
+        <p class="tool-box-description">A popular platform for video conferencing and online meetings.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.google.com/meet" target="_blank">Google Meet</a>
+        <p class="tool-box-description">Google's video conferencing tool for meetings and collaboration.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.asana.com" target="_blank">Asana</a>
+        <p class="tool-box-description">A task and project management tool for team collaboration.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.monday.com" target="_blank">Monday.com</a>
+        <p class="tool-box-description">A work operating system for managing projects, tasks, and workflows.</p>
+    </div>
+    <div class="tool-box">
+        <a href="https://www.miro.com" target="_blank">Miro</a>
+        <p class="tool-box-description">A visual collaboration platform for remote teams to brainstorm and plan together.</p>
+    </div>
+    <button class="btn close-btn" onclick="closePopup('collaboration-tools')">Close</button>
+</div>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 AI Tools Hub</p>
+    </footer>
+
+    <script>
+        let username;
+
+        // Initial function to display the Login/Register screen
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector(".login-container").style.display = "block";
+        });
+
+        // Login Function
+        function login() {
+            username = document.getElementById("username").value;
+            if (username) {
+                document.getElementById("user-name").innerText = username;
+                document.getElementById("user-name-tools").innerText = username;
+                document.querySelector(".login-container").style.display = "none";
+                document.querySelector(".welcome-container").style.display = "block";
+            } else {
+                alert("Please enter your name to continue.");
+            }
+        }
+
+        // Show Tools Function
+        function showTools() {
+            document.querySelector(".welcome-container").style.display = "none";
+            document.querySelector(".tools-container").style.display = "block";
+        }
+
+        // Show Popup Function
+        function showPopup(popupId) {
+            document.getElementById(popupId).style.display = "block";
+        }
+
+        // Close Popup Function
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
